@@ -26,6 +26,6 @@ using (var connection = connectionFactory.CreateConnection())
         
         channel.BasicPublish("", routingKey: queue.Name, mandatory: false, body: body);
         Console.WriteLine($"Message: {message} was Published");
+        Console.ReadKey();
     }
 }
-Console.ReadKey();
