@@ -36,5 +36,6 @@ using (var connection = connectionFactory.CreateConnection())
         channel.BasicConsume(queue.Name, true, consumer);
         
         Console.WriteLine("Press [enter] to exit.");
+        Console.ReadKey();
     }
 }
