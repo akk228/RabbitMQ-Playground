@@ -32,6 +32,15 @@ public class Consumer
                 using (var channel = connection.CreateModel())
                 {
                     Console.WriteLine(indent + $"Started Consumer {number + 1}");
+                    
+                    // That says that channel can't get more than one message at a time
+                    
+                    // prefetchSize : the cumulative length of unacknowledged messages
+                    // that can be received by this channel
+                    // prefetchCount : the number of unacknowledged messages to be received by this channel 
+                    // global : specifies if these settings are shared between queues
+                    channel.BasicQos(prefetchSize:0, prefetchCount:1, global: false);
+                    
                     var queue = new BasicQueue();
 
                     channel.QueueDeclare(
@@ -49,6 +58,7 @@ public class Consumer
                         Thread.Sleep(delay);
                         var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
                         Console.WriteLine(indent + $"Recieved: \"{message}\" by consumer {number + 1}");
+                        
                         channel.BasicAck(eventArgs.DeliveryTag, false);
                     };
 

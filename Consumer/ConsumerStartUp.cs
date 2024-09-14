@@ -29,7 +29,7 @@ var consumers = new Task[consumerCount];
 var userInput = new TaskCompletionSource();
 
 for (int i = 0; i < consumerCount; i++) {
-    var delayInMs = i * 2000;
+    var delayInMs = 1000 + i * 2000;
     consumers[i] = Consumer.Consumer.Run(i, delayInMs, userInput);
 }
 
