@@ -1,5 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿/*
+ * This a simple consumer, that listens message from a one named queue
+ */
 using System.Text;
 using QueueSettings;
 using RabbitMQ.Client;
@@ -35,6 +36,5 @@ using (var connection = connectionFactory.CreateConnection())
         channel.BasicConsume(queue.Name, true, consumer);
         
         Console.WriteLine("Press [enter] to exit.");
-        Console.ReadKey();
     }
 }

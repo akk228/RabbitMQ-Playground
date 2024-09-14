@@ -1,6 +1,10 @@
-﻿using System.Text;
+﻿/*
+ * This is the simplest possible publisher, that publishes messages to a single named queue.
+ */
+using System.Text;
 using RabbitMQ.Client;
 using QueueSettings;
+
 var connectionFactory = new ConnectionFactory()
 {
     HostName = "localhost"
