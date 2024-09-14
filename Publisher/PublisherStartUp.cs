@@ -42,5 +42,8 @@ using (var connection = connectionFactory.CreateConnection())
             channel.BasicPublish("", routingKey: queue.Name, mandatory: false, body: body);
             Console.WriteLine($"Message: \"{message}\" was Published");
         }
+        
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }
