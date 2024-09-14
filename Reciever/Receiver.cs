@@ -1,5 +1,7 @@
 ﻿/*
- * This a simple consumer, that listens message from a one named queue
+ * I will create here application that will create the amount of consumers that you specify,
+ * and these consumers will be consuming messages in a round-robin way
+ * meaning that they are gonna be receiving messages one after another in a circle manner
  */
 using System.Text;
 using QueueSettings;
