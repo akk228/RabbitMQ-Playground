@@ -49,9 +49,10 @@ public class Consumer
                         Thread.Sleep(delay);
                         var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
                         Console.WriteLine(indent + $"Recieved: \"{message}\" by consumer {number + 1}");
+                        channel.BasicAck(eventArgs.DeliveryTag, false);
                     };
 
-                    channel.BasicConsume(queue.Name, true, consumer);
+                    channel.BasicConsume(queue.Name, false, consumer);
                     
                     await taskCompletionSource.Task;
                 }
