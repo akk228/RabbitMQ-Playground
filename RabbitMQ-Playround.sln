@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Publisher", "Publisher\Publ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueSettings", "QueueSettings\QueueSettings.csproj", "{D7E21F89-6C35-44EB-899E-EBD231AF2CDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reciever", "Reciever\Reciever.csproj", "{3CEBA38B-34A9-476A-A4E3-ABB51501169C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{3CEBA38B-34A9-476A-A4E3-ABB51501169C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

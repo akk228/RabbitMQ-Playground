@@ -8,7 +8,7 @@ using System.Text;
 using QueueSettings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Reciever;
+using Consumer;
 
 var connectionFactory = new ConnectionFactory()
 {
@@ -18,6 +18,7 @@ var connectionFactory = new ConnectionFactory()
 var consumerCount = 2;
 
 Console.WriteLine("Enter the number of consumers you wanna run : ");
+
 try {
     consumerCount = int.Parse(Console.ReadLine());
 }
@@ -25,17 +26,15 @@ catch (Exception e) {
 }
 
 var consumers = new Task[consumerCount];
-
 var userInput = new TaskCompletionSource();
 
 for (int i = 0; i < consumerCount; i++) {
     var delayInMs = i * 2000;
-    consumers[i] = Consumer.Run(i, delayInMs, userInput);
+    consumers[i] = Consumer.Consumer.Run(i, delayInMs, userInput);
 }
 
+Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
-
 userInput.SetResult();
-
 await Task.WhenAll(consumers);
 

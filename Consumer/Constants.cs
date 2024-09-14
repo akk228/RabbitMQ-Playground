@@ -1,4 +1,4 @@
-﻿namespace Reciever;
+﻿namespace Consumer;
 
 public class Constants
 {

@@ -14,7 +14,7 @@ using System.Text;
 using QueueSettings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-namespace Reciever;
+namespace Consumer;
 
 public class Consumer
 {
