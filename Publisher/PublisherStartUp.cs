@@ -37,7 +37,7 @@ using (var connection = connectionFactory.CreateConnection())
         
         
         for (int i = 1; i <= messageCount; i++) {
-            var message = "My Message " + i;
+            var message = "Message " + i;
             var body = Encoding.UTF8.GetBytes(message);
             channel.BasicPublish("", routingKey: queue.Name, mandatory: false, body: body);
             Console.WriteLine($"Message: \"{message}\" was Published");
