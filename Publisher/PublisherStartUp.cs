@@ -20,12 +20,23 @@ using (var connection = connectionFactory.CreateConnection())
             queue.AutoDelete,
             queue.Arguments
         );
+
+        var messageCount = 1;
         
-        var message = "Wazzap!";
-        var body = Encoding.UTF8.GetBytes(message);
+        Console.WriteLine("Enter number of messages : ");
+        try
+        {
+            messageCount = int.Parse(Console.ReadLine() ?? "1");
+        }
+        catch (Exception e){
+        }
         
-        channel.BasicPublish("", routingKey: queue.Name, mandatory: false, body: body);
-        Console.WriteLine($"Message: {message} was Published");
-        Console.ReadKey();
+        
+        for (int i = 1; i <= messageCount; i++) {
+            var message = "My Message " + i;
+            var body = Encoding.UTF8.GetBytes(message);
+            channel.BasicPublish("", routingKey: queue.Name, mandatory: false, body: body);
+            Console.WriteLine($"Message: \"{message}\" was Published");
+        }
     }
 }
