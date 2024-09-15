@@ -5,24 +5,29 @@
  * Also, for the sake of being more realistic we will give every consumer its own connection
  */
 
-var consumerCount = 2;
+using QueueSettings.Bindings;
 
-Console.WriteLine("Enter the number of consumers you wanna run : ");
-
-try {
-    consumerCount = int.Parse(Console.ReadLine() ?? string.Empty);
-}
-catch (Exception e) {
-    Console.WriteLine("Incorrect input. default value of 2 will be used");
-}
-
-var consumers = new Task[consumerCount];
+var consumers = new List<Task>();
+var greetings = new[] { GreetingType.Greeting, GreetingType.Farewell, GreetingType.InformalFarewell };
 var userInput = new TaskCompletionSource();
 
-for (int i = 0; i < consumerCount; i++) {
-    var delayInMs = 1000 + i * 2000;
-    consumers[i] = Consumer.Consumer.Run(i, userInput);
-}
+consumers.Add(
+ Consumer.Consumer.Run(
+  0,
+  greetings.Where( g => g == GreetingType.Greeting).ToList(),
+  userInput));
+
+consumers.Add(
+ Consumer.Consumer.Run(
+  1,
+  greetings.Where( g => g == GreetingType.Farewell).ToList(),
+  userInput));
+
+consumers.Add(
+ Consumer.Consumer.Run(
+  2,
+  greetings.Where( g => g != GreetingType.Greeting).ToList(),
+  userInput));
 
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
