@@ -2,5 +2,5 @@
 
 public class Constants
 {
-    public const int IndentLength = 20;
+    public const int IndentLength = 30;
 }
