@@ -1,9 +1,10 @@
 ﻿/*
- * This is the simplest possible publisher, that publishes messages to a single named queue.
+ * This is the publisher that publishes messages to an exchange
  */
 using System.Text;
 using RabbitMQ.Client;
 using QueueSettings;
+using QueueSettings.Exchanges;
 
 var connectionFactory = new ConnectionFactory()
 {
@@ -14,17 +15,16 @@ using (var connection = connectionFactory.CreateConnection())
 {
     using (var channel = connection.CreateModel())
     {
-        // use just Named queue
-        var queue = new BasicQueue();
-        
-        channel.QueueDeclare(
-            queue.Name,
-            queue.IsDurable,
-            queue.IsExclusive,
-            queue.AutoDelete,
-            queue.Arguments
-        );
 
+        var fanOutExchangeConfig = new FanOutExchangeConfig();
+        
+        channel.ExchangeDeclare(
+            exchange: fanOutExchangeConfig.Name,
+            type: fanOutExchangeConfig.Type,
+            durable: fanOutExchangeConfig.Durable,
+            autoDelete: fanOutExchangeConfig.AutoDelete,
+            arguments: fanOutExchangeConfig.Arguments);
+        
         var messageCount = 1;
         
         Console.WriteLine("Enter number of messages : ");
@@ -39,7 +39,7 @@ using (var connection = connectionFactory.CreateConnection())
         for (int i = 1; i <= messageCount; i++) {
             var message = "Message " + i;
             var body = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish("", routingKey: queue.Name, mandatory: false, body: body);
+            channel.BasicPublish(fanOutExchangeConfig.Name, routingKey: "", mandatory: false, body: body);
             Console.WriteLine($"Message: \"{message}\" was Published");
         }
         
