@@ -4,6 +4,7 @@
 using System.Text;
 using RabbitMQ.Client;
 using QueueSettings;
+using QueueSettings.Bindings;
 using QueueSettings.Exchanges;
 
 var connectionFactory = new ConnectionFactory()
@@ -16,31 +17,41 @@ using (var connection = connectionFactory.CreateConnection())
     using (var channel = connection.CreateModel())
     {
 
-        var fanOutExchangeConfig = new FanOutExchangeConfig();
+        var directExchangeConfig = new DirectExchangeConfig();
         
         channel.ExchangeDeclare(
-            exchange: fanOutExchangeConfig.Name,
-            type: fanOutExchangeConfig.Type,
-            durable: fanOutExchangeConfig.Durable,
-            autoDelete: fanOutExchangeConfig.AutoDelete,
-            arguments: fanOutExchangeConfig.Arguments);
+            exchange: directExchangeConfig.Name,
+            type: directExchangeConfig.Type,
+            durable: directExchangeConfig.Durable,
+            autoDelete: directExchangeConfig.AutoDelete,
+            arguments: directExchangeConfig.Arguments);
         
-        var messageCount = 1;
+        var roundsCount = 1;
         
-        Console.WriteLine("Enter number of messages : ");
+        Console.WriteLine("Enter number of message rounds to send : ");
         try
         {
-            messageCount = int.Parse(Console.ReadLine() ?? "1");
+            roundsCount = int.Parse(Console.ReadLine() ?? "1");
         }
         catch (Exception e){
         }
+
+        string[] greetings = [GreetingType.Greeting, GreetingType.Farewell, GreetingType.InformalFarewell];
         
-        
-        for (int i = 1; i <= messageCount; i++) {
-            var message = "Message " + i;
-            var body = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(fanOutExchangeConfig.Name, routingKey: "", mandatory: false, body: body);
-            Console.WriteLine($"Message: \"{message}\" was Published");
+        for (int i = 1; i <= roundsCount; i++) {
+            foreach (var greeting in greetings)
+            {
+                var message = greeting + i;
+                var body = Encoding.UTF8.GetBytes(message);
+                
+                channel.BasicPublish(
+                    directExchangeConfig.Name,
+                    routingKey: greeting,
+                    mandatory: false,
+                    body: body);
+                
+                Console.WriteLine($"Message: \"{message}\" was Published");   
+            }
         }
         
         Console.WriteLine("Press any key to exit...");
