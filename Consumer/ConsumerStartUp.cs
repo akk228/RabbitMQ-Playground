@@ -10,9 +10,10 @@ var consumerCount = 2;
 Console.WriteLine("Enter the number of consumers you wanna run : ");
 
 try {
-    consumerCount = int.Parse(Console.ReadLine());
+    consumerCount = int.Parse(Console.ReadLine() ?? string.Empty);
 }
 catch (Exception e) {
+    Console.WriteLine("Incorrect input. default value of 2 will be used");
 }
 
 var consumers = new Task[consumerCount];
