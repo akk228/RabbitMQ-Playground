@@ -20,7 +20,7 @@ var userInput = new TaskCompletionSource();
 
 for (int i = 0; i < consumerCount; i++) {
     var delayInMs = 1000 + i * 2000;
-    consumers[i] = Consumer.Consumer.Run(i, delayInMs, userInput);
+    consumers[i] = Consumer.Consumer.Run(i, userInput);
 }
 
 Console.WriteLine("Press any key to exit...");
