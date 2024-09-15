@@ -33,16 +33,24 @@ public class Consumer
                 using (var channel = connection.CreateModel())
                 {
                     Console.WriteLine(indent + $"Started Consumer for types: {string.Join(", ", greetingTypes)}");
-                    
+
+                    var directExchangeConfig = new DirectExchangeConfig();
+
+                    channel.ExchangeDeclare(
+                        exchange: directExchangeConfig.Name,
+                        type: directExchangeConfig.Type,
+                        durable: directExchangeConfig.Durable,
+                        autoDelete: directExchangeConfig.AutoDelete,
+                        arguments: directExchangeConfig.Arguments);
+
                     var queue = channel.QueueDeclare();
-                    var fanOutExchangeConfig = new DirectExchangeConfig();
 
                     // binds queue to exchange to listen for a messages with specific Greeting Types
                     foreach (var greetingType in greetingTypes)
                     {
                         channel.QueueBind(
                             queue: queue.QueueName,
-                            exchange: fanOutExchangeConfig.Name, 
+                            exchange: directExchangeConfig.Name, 
                             routingKey: greetingType);   
                     }
                     
