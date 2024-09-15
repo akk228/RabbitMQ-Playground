@@ -4,16 +4,7 @@
  * meaning that they are gonna be receiving messages one after another in a circle manner.
  * Also, for the sake of being more realistic we will give every consumer its own connection
  */
-using System.Text;
-using QueueSettings;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using Consumer;
-
-var connectionFactory = new ConnectionFactory()
-{
-    HostName = "localhost"
-};
 
 var consumerCount = 2;
 
