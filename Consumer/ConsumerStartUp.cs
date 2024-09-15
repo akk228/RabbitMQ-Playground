@@ -4,7 +4,6 @@
  * meaning that they are gonna be receiving messages one after another in a circle manner.
  * Also, for the sake of being more realistic we will give every consumer its own connection
  */
-using RabbitMQ.Client;
 
 var consumerCount = 2;
 
